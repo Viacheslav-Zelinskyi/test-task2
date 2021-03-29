@@ -1,0 +1,50 @@
+.auth_container{
+    background-color: #f9f9f9;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.auth_window{
+    background-color: white;
+    height: 450px;
+    width: 550px;
+    border-radius: 15px;
+    border: 2px solid rgb(199, 199, 199);
+}
+.auth_buttons{
+    margin-top: 60px;
+}
+.auth_form{
+    display: flex;
+    margin-left: 90px;
+    flex-direction: column;
+    align-items:flex-start;
+}
+.submit_button{
+    margin-top: 30px;
+    background-color: cornflowerblue;
+    border: none;
+    border-radius: 15px;
+    height: 40px;
+    width: 190px;
+    font-size: 19px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+}
+.submit_button:hover{
+    background-color: rgb(152, 188, 255);
+}
+.switch_button{
+    margin-left: 5px;
+    background-color: transparent;
+    border: none;
+    font-size: 17px;
+    color:blue;
+    cursor: pointer;
+}
+.switch_button:hover{
+    color: rgb(98, 98, 255);
+}
