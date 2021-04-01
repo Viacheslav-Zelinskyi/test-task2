@@ -4,9 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "fastify": "^3.14.0",
     "fastify-bcrypt": "^0.1.0",
     "fastify-cors": "^5.2.0",
+    "fastify-env": "^2.1.0",
     "fastify-jwt": "^2.4.0",
     "fastify-postgres": "^3.5.0",
     "nodemon": "^2.0.7",

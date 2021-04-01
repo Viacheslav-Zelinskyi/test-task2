@@ -6,10 +6,13 @@ fastify.register(require('fastify-bcrypt'), {
 fastify.register(require('fastify-jwt'), {
 	secret: 'testTaskSecret2',
 });
+require('dotenv').config()
 
-const databaseUser = 'postgres';
-const databaseUserPassword = '52505250';
-const database = 'test_task';
+const databaseUser =  process.env.DB_USER;
+const databaseUserPassword = process.env.DB_PASSWORD;
+const database = process.env.DB;
+const port = process.env.PORT;
+
 fastify.register(require('fastify-postgres'), {
 	connectionString: `postgres://${databaseUser}:${databaseUserPassword}@localhost/${database}`,
 });
@@ -27,10 +30,11 @@ fastify.post('/signUp', (req, reply) => {
 	});
 });
 
-fastify.post('/signIn', (req, reply) => {
+fastify.post('/auth', (req, reply) => {
 	return fastify.pg.transact(async (client) => {
 		const user = await client.query('SELECT * FROM users WHERE username=$1', [req.body.username]);
-		const isValid = await fastify.bcrypt.compare(req.body.password, user.rows[0].paswd);
+		const isValid =
+			user.rows.length > 0 ? await fastify.bcrypt.compare(req.body.password, user.rows[0].paswd) : 'false';
 		reply.send({
 			isValid: isValid,
 			userId: isValid ? user.rows[0].id : null,
@@ -39,16 +43,12 @@ fastify.post('/signIn', (req, reply) => {
 	});
 });
 
-fastify.post('/auth', (req, reply) => {
-	fastify.jwt.verify(req.body.token).then(reply.send({ isValid: true }));
-});
-
-fastify.get('/timeslot', (req, reply) => {
+fastify.get('/timeslot/:user_id', (req, reply) => {
 	fastify.pg.connect(onConnect);
 	function onConnect(err, client, release) {
 		if (err) return reply.send(err);
 
-		client.query('SELECT * FROM slots', function onResult(err, result) {
+		client.query('SELECT * FROM slots WHERE user_id=$1', [req.query.user_id], function onResult(err, result) {
 			release();
 			reply.send(err || result.rows);
 		});
@@ -56,8 +56,9 @@ fastify.get('/timeslot', (req, reply) => {
 });
 
 fastify.post('/timeslot', (req, reply) => {
+	fastify.jwt.verify(req.body.token);
 	return fastify.pg.transact(async (client) => {
-		await client.query('TRUNCATE TABLE slots');
+		await client.query('DELETE FROM slots WHERE user_id=$1', [req.body.userId]);
 
 		req.body.arrayDate.map((value) => {
 			client.query('INSERT INTO slots(value, user_id) VALUES($1, $2)', [value, req.body.userId]);
@@ -68,7 +69,7 @@ fastify.post('/timeslot', (req, reply) => {
 
 const start = async () => {
 	try {
-		await fastify.listen(3000);
+		await fastify.listen(port);
 	} catch (err) {
 		fastify.log.error(err);
 		process.exit(1);

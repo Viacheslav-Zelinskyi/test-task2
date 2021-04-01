@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import Auth from './AuthPage/auth';
-import Main from './MainPage/main';
+import Auth from './AuthPage/Auth';
+import Main from './MainPage/Main';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 function App() {
@@ -10,17 +10,7 @@ function App() {
 
 	useEffect(() => {
 		let token = { token: localStorage.getItem('token') };
-		if (token.token != null) {
-			fetch('http://localhost:3000/auth', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json;charset=utf-8' },
-				body: JSON.stringify(token),
-			})
-				.then((response) => response.json())
-				.then((result) => {
-					setIsLoggedIn(String(result.isValid));
-				});
-		}
+		if (token.token != null) {setIsLoggedIn('true')}
 	});
 
 	return (

@@ -33,7 +33,7 @@ export default function Login({ setSignIn, setIsLoggedIn }) {
 
 async function verifyLogin(login, password, setIsLoggedIn, setWrongPassword) {
 	const user = { username: login, password: password };
-	await fetch('http://localhost:3000/signIn', {
+	await fetch('http://localhost:3000/auth', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json;charset=utf-8' },
 		body: JSON.stringify(user),

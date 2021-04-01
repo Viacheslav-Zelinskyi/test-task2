@@ -1,14 +1,44 @@
-.timeslot_container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.timeslot_container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
-table{
-    border-collapse: collapse;
+table {
+	border-collapse: collapse;
+}
+/* Cells that can be interacted with */
+.table-drag-select td.cell-enabled {
+	color: #806e52;
+	width: 25px;
+	height: 25px;
+	background-color: #ffffff;
+	border: 2px solid black;
 }
 
-td{
-    border: 1px solid black;
-    width: 20px;
-    height: 20px;
+/* Cells that cannot be interacted with */
+.table-drag-select td.cell-disabled {
+	/* Put yer css here */
+}
+
+/* Cells that have been selected */
+.table-drag-select td.cell-selected {
+	background-color: #ff0800;
+}
+
+/* Cells that are in the process of being selected */
+.table-drag-select td.cell-being-selected {
+	background-color: #969696;
+}
+
+/* Cells in first row */
+.table-drag-select tr:first-child td {
+	/* Remove empty space at top of table */
+	border-top: 0;
+	line-height: 1rem;
+}
+
+/* Cells in first column */
+.table-drag-select td:first-child {
+	/* Consume less whitespace */
+	width: 3rem;
 }

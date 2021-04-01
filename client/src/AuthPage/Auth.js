@@ -1,7 +1,7 @@
 import './auth.css';
 import { useState } from 'react';
-import Login from './login';
-import Registration from './registration';
+import Login from './Login';
+import Registration from './Registration';
 
 export default function Auth({ setIsLoggedIn }) {
 	const [signIn, setSignIn] = useState(true);
